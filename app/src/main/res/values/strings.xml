@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Smart #</string>
+    <string name="caption_default">Write your caption</string>
+    <string name="btn_generate_hashtag">Generate #</string>
+</resources>
