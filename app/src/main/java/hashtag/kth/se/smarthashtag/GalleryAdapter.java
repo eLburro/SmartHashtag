@@ -9,33 +9,33 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
     private ArrayList<String> galleryList;
     private Activity activity;
     private String selectedFilePath;
 
-    public MyAdapter(Activity activity, ArrayList<String> galleryList) {
+    public GalleryAdapter(Activity activity, ArrayList<String> galleryList) {
         this.galleryList = galleryList;
         this.activity = activity;
     }
 
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public GalleryAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cell_layout, viewGroup, false);
 
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final MyAdapter.ViewHolder viewHolder, int i) {
-        MediaUtils.populateImagetoView(activity, viewHolder.img, galleryList.get(i), 220, 220);
+    public void onBindViewHolder(final GalleryAdapter.ViewHolder viewHolder, int i) {
+        MediaUtils.populateImageToView(activity, viewHolder.img, galleryList.get(i), 220, 220);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int itemPosition = viewHolder.getLayoutPosition();
                 ImageView mainImageView = activity.findViewById(R.id.main_img);
-                MediaUtils.populateImagetoView(activity, mainImageView, galleryList.get(itemPosition), 0, 0);
+                MediaUtils.populateImageToView(activity, mainImageView, galleryList.get(itemPosition), 0, 0);
                 setSelectedFilePath(galleryList.get(itemPosition));
             }
         });
@@ -57,7 +57,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     public void populateMainImage(Activity mainActivity, String filePath) {
         ImageView mainImageView = mainActivity.findViewById(R.id.main_img);
-        MediaUtils.populateImagetoView(mainActivity, mainImageView, filePath, 0, 0);
+        MediaUtils.populateImageToView(mainActivity, mainImageView, filePath, 0, 0);
     }
 
     public String getSelectedFilePath() {

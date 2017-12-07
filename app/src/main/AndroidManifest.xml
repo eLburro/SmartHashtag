@@ -9,12 +9,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_smart_hashtag"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:windowSoftInputMode="stateHidden|adjustResize">
+        <activity android:name=".SelectPictureActivity" android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +23,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CreateCaptionActivity" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+        <activity android:name=".CreateCaptionActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+
+        <activity android:name=".ShareToActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
     </application>
 
 </manifest>

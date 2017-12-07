@@ -39,7 +39,7 @@ public class MediaUtils {
         return imgPaths;
     }
 
-    public static void populateImagetoView(Activity context, ImageView view, String imgPath, int width, int height) {
+    public static void populateImageToView(Activity context, ImageView view, String imgPath, int width, int height) {
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
         if (width == 0 && height == 0) {

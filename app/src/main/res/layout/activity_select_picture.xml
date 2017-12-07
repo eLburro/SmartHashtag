@@ -51,7 +51,7 @@
             android:layout_margin="10dp" />
 
         <ImageView
-            android:id="@+id/imagecamera"
+            android:id="@+id/cameraBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="30dp"
