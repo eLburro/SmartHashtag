@@ -54,10 +54,10 @@
             android:id="@+id/cameraBtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="280dp"
             android:alpha="0.80"
-            android:src="@drawable/photo" />
+            android:src="@drawable/camera_white" />
 
         <Button
             android:id="@+id/generateBtn"

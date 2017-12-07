@@ -73,14 +73,14 @@ public class HashtagListView extends ArrayAdapter<String> {
             captionField.setText(captionText);
 
             // change to plus icon
-            iconView.setImageResource(R.drawable.plussign);
+            iconView.setImageResource(R.drawable.plus);
 
         } else {
             // add hashtag
             captionField.getText().append(hashtagText);
 
             // change to minus icon
-            iconView.setImageResource(R.drawable.minussign);
+            iconView.setImageResource(R.drawable.minus);
         }
     }
 
