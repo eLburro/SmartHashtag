@@ -1,9 +1,12 @@
-package hashtag.kth.se.smarthashtag;
+package hashtag.kth.se.smarthashtag.webview;
 
 import android.content.Intent;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import hashtag.kth.se.smarthashtag.SelectPictureActivity;
+import hashtag.kth.se.smarthashtag.api.InstagramAPI;
 
 public class AuthWebViewClient extends WebViewClient {
 

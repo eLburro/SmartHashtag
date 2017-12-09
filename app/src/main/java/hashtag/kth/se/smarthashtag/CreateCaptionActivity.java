@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import hashtag.kth.se.smarthashtag.api.GoogleVisionAPI;
+import hashtag.kth.se.smarthashtag.utils.MediaUtils;
+
 public class CreateCaptionActivity extends AppCompatActivity {
     private String selectedFilePath;
     private Map<String, Integer> hashtagItems = new HashMap<>();

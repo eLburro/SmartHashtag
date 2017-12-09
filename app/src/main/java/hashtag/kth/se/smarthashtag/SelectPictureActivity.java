@@ -21,6 +21,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import hashtag.kth.se.smarthashtag.utils.MediaUtils;
+
 public class SelectPictureActivity extends AppCompatActivity {
 
     public static final int MY_PERMISSIONS_REQUEST_READ_MEDIA = 1337;

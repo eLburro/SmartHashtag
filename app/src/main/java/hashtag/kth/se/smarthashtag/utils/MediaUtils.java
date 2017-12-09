@@ -1,4 +1,4 @@
-package hashtag.kth.se.smarthashtag;
+package hashtag.kth.se.smarthashtag.utils;
 
 import android.app.Activity;
 import android.database.Cursor;

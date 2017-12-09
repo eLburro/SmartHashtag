@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import java.io.File;
 
+import hashtag.kth.se.smarthashtag.utils.MediaUtils;
+
 public class ShareToActivity extends AppCompatActivity {
 
     public static final String MESSAGE_CAPTION = "Caption is copied to clipboard!";

@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import hashtag.kth.se.smarthashtag.utils.MediaUtils;
+
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
     private ArrayList<String> galleryList;
     private Activity activity;

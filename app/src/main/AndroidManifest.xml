@@ -27,7 +27,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <activity android:name=".WebViewActivity" android:windowSoftInputMode="stateHidden|adjustResize">
+        <activity android:name=".webview.WebViewActivity" android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

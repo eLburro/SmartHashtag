@@ -1,4 +1,4 @@
-package hashtag.kth.se.smarthashtag;
+package hashtag.kth.se.smarthashtag.api;
 
 import android.os.AsyncTask;
 
@@ -22,6 +22,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+
+import hashtag.kth.se.smarthashtag.CreateCaptionActivity;
+import hashtag.kth.se.smarthashtag.api.InstagramAPI;
 
 public class GoogleVisionAPI {
     private final String API_KEY = "AIzaSyCei2QI9MhOVHDuaVlbR-_SjCDE8nOgpiA";

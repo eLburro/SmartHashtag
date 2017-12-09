@@ -1,4 +1,4 @@
-package hashtag.kth.se.smarthashtag;
+package hashtag.kth.se.smarthashtag.api;
 
 import android.os.AsyncTask;
 
@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import hashtag.kth.se.smarthashtag.CreateCaptionActivity;
 
 public class InstagramAPI {
     public static final String REDIRECT_URI = "http://der-esel.ch";
