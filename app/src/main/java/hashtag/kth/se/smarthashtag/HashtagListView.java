@@ -14,16 +14,14 @@ import android.widget.TextView;
 public class HashtagListView extends ArrayAdapter<String> {
     private String[] hashtag;
     private String[] trend;
-    private Integer[] imgId;
     private Activity context;
 
-    public HashtagListView(Activity context, String[] hashtag, String[] trend, Integer[] imgId) {
+    public HashtagListView(Activity context, String[] hashtag, String[] trend) {
         super(context, R.layout.hashtag_layout, hashtag);
 
         this.context = context;
         this.hashtag = hashtag;
         this.trend = trend;
-        this.imgId = imgId;
     }
 
     @NonNull
@@ -42,7 +40,7 @@ public class HashtagListView extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.ivwIcon.setImageResource(imgId[position]);
+        viewHolder.ivwIcon.setImageResource(R.drawable.plus);
         viewHolder.tvwHashtag.setText(hashtag[position]);
         viewHolder.tvwTrend.setText(trend[position]);
 

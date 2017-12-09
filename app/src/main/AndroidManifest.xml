@@ -27,7 +27,7 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
-        <activity android:name=".SelectPictureActivity" android:windowSoftInputMode="stateHidden|adjustResize">
+        <activity android:name=".WebViewActivity" android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,6 +38,8 @@
         <activity android:name=".CreateCaptionActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
 
         <activity android:name=".ShareToActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+
+        <activity android:name=".SelectPictureActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden|adjustResize"></activity>
     </application>
 
 </manifest>

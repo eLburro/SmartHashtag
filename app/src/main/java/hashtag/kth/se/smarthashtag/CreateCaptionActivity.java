@@ -1,7 +1,6 @@
 package hashtag.kth.se.smarthashtag;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,34 +9,21 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.services.vision.v1.Vision;
-import com.google.api.services.vision.v1.VisionRequestInitializer;
-import com.google.api.services.vision.v1.model.AnnotateImageRequest;
-import com.google.api.services.vision.v1.model.AnnotateImageResponse;
-import com.google.api.services.vision.v1.model.BatchAnnotateImagesRequest;
-import com.google.api.services.vision.v1.model.BatchAnnotateImagesResponse;
-import com.google.api.services.vision.v1.model.EntityAnnotation;
-import com.google.api.services.vision.v1.model.Feature;
-import com.google.api.services.vision.v1.model.Image;
-
-import org.apache.commons.io.IOUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CreateCaptionActivity extends AppCompatActivity {
-    private final String API_KEY = "AIzaSyCei2QI9MhOVHDuaVlbR-_SjCDE8nOgpiA";
-
     private String selectedFilePath;
-    private Vision vision;
-    private ArrayList<String> hashtags = new ArrayList<>();
+    private Map<String, Integer> hashtagItems = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +36,9 @@ public class CreateCaptionActivity extends AppCompatActivity {
         MediaUtils.populateImageToView(this, thumbnailImageView, selectedFilePath, 0, 0);
 
         // call Google vision API
-        prepareVisionApi();
-        new RequestHashtagsTask().execute(selectedFilePath);
+        GoogleVisionAPI googleVisionAPI = new GoogleVisionAPI();
+        googleVisionAPI.prepareVisionApi();
+        googleVisionAPI.callRequestHashtags(this, selectedFilePath);
 
         // handle share to button
         ImageView shareToBtn = findViewById(R.id.btn_shareTo);
@@ -80,34 +67,46 @@ public class CreateCaptionActivity extends AppCompatActivity {
     }
 
     private HashtagListView createHashtagList() {
-        int arrSize = hashtags.size();
-        String[] trendArr = new String[arrSize];
-        Integer[] imgIdArr = new Integer[arrSize];
-        String[] hashtagArr = new String[arrSize];
+        int collectionSize = hashtagItems.size();
+        String[] trendArr = new String[collectionSize];
+        String[] hashtagArr = new String[collectionSize];
 
-        for (int i = 0; i < arrSize; i++) {
-            hashtagArr[i] = formatHashtag(hashtags.get(i));
-            trendArr[i] = "200'000";
-            imgIdArr[i] = R.drawable.plus;
+        // sort map
+        Map<String, Integer> sortedMap = sortByComparator(hashtagItems);
+        int i = 0;
+
+        for (String hashtag : sortedMap.keySet()) {
+            String trend = sortedMap.get(hashtag).toString();
+            hashtagArr[i] = formatHashtag(hashtag);
+            trendArr[i] = formatTrend(trend);
+            i++;
         }
 
-        return new HashtagListView(this, hashtagArr, trendArr, imgIdArr);
+        return new HashtagListView(this, hashtagArr, trendArr);
     }
 
-    private void prepareVisionApi() {
-        // create vision object
-        Vision.Builder visionBuilder = new Vision.Builder(
-                new NetHttpTransport(),
-                new AndroidJsonFactory(),
-                null);
+    private Map<String, Integer> sortByComparator(Map<String, Integer> unsortMap) {
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(unsortMap.entrySet());
 
-        visionBuilder.setVisionRequestInitializer(
-                new VisionRequestInitializer(API_KEY));
+        // Sorting the list based on values
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1,
+                               Map.Entry<String, Integer> o2) {
 
-        vision = visionBuilder.build();
+                return o2.getValue().compareTo(o1.getValue());
+            }
+        });
+
+        // Maintaining insertion order with the help of LinkedList
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
     }
 
-    private void populateListView() {
+    public void populateListView() {
         // get hashtag list and populate it
         ListView listView;
         listView = findViewById(R.id.hashtagList);
@@ -115,7 +114,7 @@ public class CreateCaptionActivity extends AppCompatActivity {
         listView.setAdapter(hashtagListView);
     }
 
-    private void removeSpinner() {
+    public void removeSpinner() {
         ProgressBar spinner = findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
     }
@@ -132,60 +131,21 @@ public class CreateCaptionActivity extends AppCompatActivity {
         return newTag.toString();
     }
 
-    /**
-     * Background task to request tags from the Google Vision API
-     */
-    private class RequestHashtagsTask extends AsyncTask<String, Integer, Long> {
+    private String formatTrend(String trend) {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
 
-        @Override
-        protected Long doInBackground(String... filePaths) {
-            // convert photo to byte array
-            //InputStream inputStream = getResources().openRawResource(R.drawable.test_img);
+        symbols.setGroupingSeparator('\'');
+        formatter.setDecimalFormatSymbols(symbols);
 
-            byte[] photoData;
+        return formatter.format(Long.valueOf(trend));
+    }
 
-            try {
-                File file = new File(filePaths[0]);
-                InputStream inputStream = new FileInputStream(file);
+    public void addHashtagAndTrend(String hashtag, Integer trend) {
+        hashtagItems.put(hashtag, trend);
+    }
 
-                photoData = IOUtils.toByteArray(inputStream);
-                inputStream.close();
-
-                Image inputImage = new Image();
-                inputImage.encodeContent(photoData);
-
-                Feature desiredFeature = new Feature();
-                desiredFeature.setType("LABEL_DETECTION");
-
-                AnnotateImageRequest request = new AnnotateImageRequest();
-                request.setImage(inputImage);
-                request.setFeatures(Arrays.asList(desiredFeature));
-
-                BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
-                batchRequest.setRequests(Arrays.asList(request));
-
-                BatchAnnotateImagesResponse batchResponse = vision.images().annotate(batchRequest).execute();
-                List<AnnotateImageResponse> responses = batchResponse.getResponses();
-
-                for (AnnotateImageResponse res : responses) {
-                    for (EntityAnnotation annotation : res.getLabelAnnotations()) {
-                        hashtags.add(annotation.getDescription());
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Long aLong) {
-            super.onPostExecute(aLong);
-            populateListView();
-
-            removeSpinner();
-        }
+    public Map<String, Integer> getHashtagItems() {
+        return hashtagItems;
     }
 }

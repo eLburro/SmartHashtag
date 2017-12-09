@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ public class ShareToActivity extends AppCompatActivity {
 
         // set thumbnail picture
         selectedFilePath = getIntent().getStringExtra("selectedFilePath");
-        ImageView thumbnailImageView = findViewById(R.id.thumbnail);
+        ImageView thumbnailImageView = findViewById(R.id.main_img);
         MediaUtils.populateImageToView(this, thumbnailImageView, selectedFilePath, 0, 0);
 
         // set caption text
@@ -56,9 +57,9 @@ public class ShareToActivity extends AppCompatActivity {
             }
         });
 
-        // handle Instagram share button
-        ImageView shareInstagramBtn = findViewById(R.id.share_instagram);
-        shareInstagramBtn.setOnClickListener(new View.OnClickListener() {
+        // handle share to button
+        Button shareToBtn = findViewById(R.id.shareToBtn);
+        shareToBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
