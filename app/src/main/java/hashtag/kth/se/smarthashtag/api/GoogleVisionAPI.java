@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -73,12 +74,32 @@ public class GoogleVisionAPI {
                 Image inputImage = new Image();
                 inputImage.encodeContent(photoData);
 
-                Feature desiredFeature = new Feature();
-                desiredFeature.setType("LABEL_DETECTION");
+                List<Feature> featureList = new ArrayList<>();
+                // label detection
+                Feature labelFeature = new Feature();
+                labelFeature.setType("LABEL_DETECTION");
+                featureList.add(labelFeature);
+
+                /*
+                // landmark detection
+                Feature landmarkFeature = new Feature();
+                landmarkFeature.setType("LANDMARK_DETECTION");
+                featureList.add(landmarkFeature);
+
+                // image properties detection
+                Feature imgPropertiesFeature = new Feature();
+                imgPropertiesFeature.setType("IMAGE_PROPERTIES");
+                featureList.add(imgPropertiesFeature);
+
+                // text detection
+                Feature textFeature = new Feature();
+                textFeature.setType("TEXT_DETECTION");
+                featureList.add(textFeature);
+                */
 
                 AnnotateImageRequest request = new AnnotateImageRequest();
                 request.setImage(inputImage);
-                request.setFeatures(Arrays.asList(desiredFeature));
+                request.setFeatures(featureList);
 
                 BatchAnnotateImagesRequest batchRequest = new BatchAnnotateImagesRequest();
                 batchRequest.setRequests(Arrays.asList(request));
